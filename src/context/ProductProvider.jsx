@@ -41,8 +41,8 @@ export function ProductProvider({ children }) {
   const calculate = () => {
     const findPrice = products.find((item) => item.name === product.name);
     const price = findPrice ? findPrice.price : 0;
-    const total = Number(price) * product.qtd;
-    setDetailsPurchase({ ...detailsPurchase, price, total });
+    const total = parseFloat(Number(price) * product.qtd);
+    setDetailsPurchase({ ...detailsPurchase, price, total: total.toFixed(2) });
   };
 
   const taxRates = (name) => {

@@ -12,19 +12,19 @@ export default function TablePurchase() {
       <table className="tablePurchase">
         <tr>
           <td>Gross:</td>
-          <td>{`$ ${gross}`}</td>
+          <td>{`$ ${gross.toFixed(2)}`}</td>
         </tr>
         <tr>
           <td>Discounts:</td>
-          <td>{`$ ${discount}`}</td>
+          <td>{`$ ${discount.toFixed(2)}`}</td>
         </tr>
         <tr>
           <td>Taxes:</td>
-          <td>{`$ ${taxes}`}</td>
+          <td>{`$ ${taxes.toFixed(2)}`}</td>
         </tr>
         <tr>
           <td>Net:</td>
-          <td>{`$ ${net}`}</td>
+          <td>{`$ ${net.toFixed(2)}`}</td>
         </tr>
       </table>
       <button>Purchase</button>

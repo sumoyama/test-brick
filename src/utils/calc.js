@@ -8,3 +8,11 @@ export const calculateTable = (listProducts) => {
    const net = gross - discount + taxes;
   return {gross, discount, taxes, net};
 }
+
+
+  export const calculateFinalPrice = (total, discount, tax) => {
+    const applyDiscount = total - total * discount;
+    const applyTax = parseFloat(applyDiscount - applyDiscount * tax);
+
+    return applyTax;
+  };

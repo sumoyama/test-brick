@@ -1,14 +1,9 @@
 import { useContext } from "react";
 import ProductContext from "../context/ProductContext";
+import { calculateFinalPrice } from "../utils/calc";
 
 export default function FormListProducts() {
   const { listProducts, removeProduct } = useContext(ProductContext);
-  const calculateFinalPrice = (total, discount, tax) => {
-    const applyDiscount = total - total * discount;
-    const applyTax = applyDiscount - applyDiscount * tax;
-
-    return applyTax;
-  };
   return (
     <>
       {listProducts.map((product) => (
@@ -17,13 +12,13 @@ export default function FormListProducts() {
           <td>{product.qtd}</td>
           <td>{product.price}</td>
           <td>{`${product.discount * 100}%`}</td>
-          <td>{product.taxRate}</td>
+          <td>{`${product.taxRate.toFixed(2)}`}</td>
           <td>
             {calculateFinalPrice(
               product.total,
               product.discount,
               product.taxRate
-            )}
+            ).toFixed(2)}
           </td>
           <td>
             <button onClick={() => removeProduct(product.id)}>x</button>

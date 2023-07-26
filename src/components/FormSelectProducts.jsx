@@ -37,9 +37,12 @@ export default function FormSelectProducts() {
       <td>{detailsPurchase.price}</td>
       <td>{`${detailsPurchase.discount * 100}%`}</td>
       <td>{detailsPurchase.taxRate}</td>
-      <td>{detailsPurchase.total}</td>
+      <td>{`$ ${detailsPurchase.total}`}</td>
       <td>
-        <button onClick={addProduct} disabled={!detailsPurchase.total > 0}>
+        <button
+          onClick={addProduct}
+          disabled={!parseFloat(detailsPurchase.total) > 0}
+        >
           add
         </button>
       </td>
