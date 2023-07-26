@@ -11,12 +11,14 @@ export function CompaniesProvider({ children }) {
   const [disabledCompanyFirstSelect, setDisabledCompanyFirstSelect] =
     useState(false);
   const { setDetailsPurchase, detailsPurchase } = useContext(ProductContext);
+
   useEffect(() => {
     getListCompanies().then((data) => {
       const dataCompanies = Object.keys(data).map((item) => data[item]);
       setCompanies(dataCompanies);
     });
   }, []);
+
   const handleChangeCompanies = ({ target: { value } }) => {
     const { company_discount: discount } = companies.find(
       ({ name }) => name === value

@@ -1,7 +1,19 @@
+body {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
 table {
   border: solid 1px white;
 }
 
 td {
   border: solid 1px white;
+}
+.tablePurchase {
+  margin-top: 20px;
 }

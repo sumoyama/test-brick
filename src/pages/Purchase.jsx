@@ -3,6 +3,7 @@ import "./Purchase.css";
 import FormSelectProducts from "../components/FormSelectProducts";
 import FormListProducts from "../components/FormListProducts";
 import CompaniesContext from "../context/CompaniesContext";
+import TablePurchase from "../components/TablePurchase";
 
 export default function Purchase() {
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,6 @@ export default function Purchase() {
         <div>
           <h1>Purchase Page</h1>
           <h2>Select the company </h2>
-
           <select
             name="paises"
             id="paises"
@@ -43,22 +43,24 @@ export default function Purchase() {
               </option>
             ))}
           </select>
-
           <h2>Select the Products to Purchase </h2>
           <table className="table">
             <thead>
-              <th>Products</th>
-              <th>Quantity</th>
-              <th>Price</th>
-              <th>Discount</th>
-              <th>Taxes</th>
-              <th>Total</th>
+              <tr>
+                <th>Products</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Taxes</th>
+                <th>Total</th>
+              </tr>
             </thead>
             <tbody>
               <FormListProducts />
               <FormSelectProducts />
             </tbody>
           </table>
+          <TablePurchase />
         </div>
       )}
     </>
