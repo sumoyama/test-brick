@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import ProductContext from "../context/ProductContext";
-import { calculateFinalPrice } from "../utils/calculate";
+import { calculateFinalPrice } from "../../utils/calculate";
+import ProductContext from "../../context/ProductContext";
 
-export default function FormListProducts() {
+export default function TableListProducts() {
   const { listProducts, removeProduct } = useContext(ProductContext);
   return (
-    <>
+    <tbody>
       {listProducts.map((product) => (
         <tr key={`Product ${product.id}`}>
           <td>{product.name}</td>
@@ -25,6 +25,6 @@ export default function FormListProducts() {
           </td>
         </tr>
       ))}
-    </>
+    </tbody>
   );
 }

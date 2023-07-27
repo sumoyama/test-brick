@@ -1,7 +1,6 @@
 import { useContext } from "react";
-import ProductContext from "../context/ProductContext";
+import ProductContext from "../../context/ProductContext";
 
-TablePurchase;
 export default function TablePurchase() {
   const { calculateTablePurchase } = useContext(ProductContext);
 

@@ -25,7 +25,6 @@ export function CompaniesProvider({ children }) {
     const { company_discount: discount } = companies.find(
       ({ name }) => name === value
     );
-    console.log(product, discount);
     setProduct({ ...product, discount });
     setCompany(value);
     setDisabledCompanyFirstSelect(true);
