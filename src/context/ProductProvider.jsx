@@ -42,7 +42,8 @@ export function ProductProvider({ children }) {
   };
 
   const addProduct = () => {
-    const id = listProducts.id + 1;
+    const id = product.id + 1;
+    console.log(id);
     setListProduct([
       ...listProducts,
       {
@@ -64,6 +65,7 @@ export function ProductProvider({ children }) {
 
   const removeProduct = (id) => {
     const newListProducts = filterRemoveProductListPurchase(listProducts, id);
+    console.log(newListProducts);
     setListProduct(newListProducts);
     if (newListProducts.length > 0) {
       const newSelectProducts = insertTheItemRemovedToListSelectProduct(

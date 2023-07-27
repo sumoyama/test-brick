@@ -10,7 +10,7 @@ export default function FormListProducts() {
         <tr key={`Product ${product.id}`}>
           <td>{product.name}</td>
           <td>{product.qtd}</td>
-          <td>{product.price}</td>
+          <td>{`$ ${product.price}`}</td>
           <td>{`${product.discount * 100}%`}</td>
           <td>{`${product.taxRate * 100}%`}</td>
           <td>

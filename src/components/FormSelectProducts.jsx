@@ -32,7 +32,7 @@ export default function FormSelectProducts() {
           onChange={onChangeInputProduct}
         />
       </td>
-      <td>{`${product.price}`}</td>
+      <td>{`$ ${product.price}`}</td>
       <td>{`${product.discount * 100}%`}</td>
       <td>{`${product.taxRate * 100}%`}</td>
       <td>{`$ ${total}`}</td>
