@@ -1,34 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Proptypes from "prop-types";
 import ProductContext from "./ProductContext";
-import { initialState } from "../utils/state";
+import { initialStateProduct } from "../utils/state";
 import { getListProducts } from "../utils/apis";
-import { calculateTable } from "../utils/calc";
+import { calcTaxRates, calculateTable } from "../utils/calculate";
+import {
+  filterProductPrice,
+  filterProductToRemove,
+  filterRemoveProductListPurchase,
+  insertTheItemRemovedToListSelectProduct,
+} from "../utils/filters";
 
 export function ProductProvider({ children }) {
-  const [product, setProduct] = useState({ ...initialState.product });
-  const [detailsPurchase, setDetailsPurchase] = useState({
-    ...initialState.details,
+  const [product, setProduct] = useState({
+    ...initialStateProduct,
   });
-  const [id, setId] = useState(1);
+
   const [products, setProducts] = useState([]);
   const [listProducts, setListProduct] = useState([]);
   const [originalProducts, setOriginalProducts] = useState([]);
   const [disabledProductFirstSelect, setDisabledProductFirstSelect] =
     useState(false);
-  const [infoPurchase, setInfoPurchase] = useState({
-    gross: 0,
-    discount: 0,
-    taxes: 0,
-    net: 0,
-  });
-  useEffect(() => {
-    calculate();
-  }, [product]);
-
-  useEffect(() => {
-    calculateTablePurchase();
-  }, [listProducts]);
 
   useEffect(() => {
     getListProducts().then((product) => {
@@ -38,85 +30,72 @@ export function ProductProvider({ children }) {
     });
   }, []);
 
-  const calculate = () => {
-    const findPrice = products.find((item) => item.name === product.name);
-    const price = findPrice ? findPrice.price : 0;
-    const total = parseFloat(Number(price) * product.qtd);
-    setDetailsPurchase({ ...detailsPurchase, price, total: total.toFixed(2) });
+  const onChangeInputProduct = ({ target }) => {
+    setProduct({ ...product, qtd: Number(target.value) });
   };
-
-  const taxRates = (name) => {
-    const { tax_rate: taxRate } = products.find((item) => item.name === name);
-    setDetailsPurchase({ ...detailsPurchase, taxRate });
-  };
-
   const handleChangeProducts = ({ target: { value } }) => {
-    taxRates(value);
-    setProduct({ ...product, name: value });
+    const { tax_rate: taxRate } = calcTaxRates(value, products);
+    const findPrice = filterProductPrice(products, value);
+    const price = findPrice ? findPrice.price : 0;
+    setProduct({ ...product, name: value, price, taxRate });
     setDisabledProductFirstSelect(true);
   };
 
   const addProduct = () => {
+    const id = listProducts.id + 1;
     setListProduct([
       ...listProducts,
       {
-        id,
         ...product,
-        ...detailsPurchase,
+        total: calculatePriceTotal,
+        id,
       },
     ]);
-
-    const removeItemSelectList = products.filter((prod) => {
-      return prod.name !== product.name;
-    });
+    const removeItemSelectList = filterProductToRemove(products, product.name);
 
     setProduct({
-      ...initialState.product,
+      ...initialStateProduct,
+      id,
     });
-    setDetailsPurchase({
-      ...initialState.details,
-    });
+
     setProducts(removeItemSelectList);
     setDisabledProductFirstSelect(false);
-    setId(id + 1);
   };
 
   const removeProduct = (id) => {
-    const newListProducts = listProducts.filter((product) => product.id !== id);
+    const newListProducts = filterRemoveProductListPurchase(listProducts, id);
     setListProduct(newListProducts);
     if (newListProducts.length > 0) {
-      const newSelectProducts = originalProducts.filter((product) => {
-        return newListProducts.some((newProduct) => {
-          return newProduct.name !== product.name;
-        });
-      });
+      const newSelectProducts = insertTheItemRemovedToListSelectProduct(
+        originalProducts,
+        newListProducts
+      );
       setProducts(newSelectProducts);
     } else {
       setProducts(originalProducts);
     }
   };
+  const calculatePriceTotal = useMemo(() => {
+    return parseFloat(Number(product.price) * product.qtd);
+  }, [product]);
 
-  const calculateTablePurchase = () => {
-    const tablePurchase = calculateTable(listProducts);
-    setInfoPurchase(tablePurchase);
-  };
+  const calculateTablePurchase = useMemo(() => {
+    return calculateTable(listProducts);
+  }, [listProducts]);
   return (
     <ProductContext.Provider
       value={{
         product,
         setProduct,
-        detailsPurchase,
-        setDetailsPurchase,
         products,
-        setProducts,
         listProducts,
-        setListProduct,
         addProduct,
-        taxRates,
         disabledProductFirstSelect,
         handleChangeProducts,
         removeProduct,
-        infoPurchase,
+        calculateTablePurchase,
+        calculatePriceTotal,
+        onChangeInputProduct,
       }}
     >
       {children}

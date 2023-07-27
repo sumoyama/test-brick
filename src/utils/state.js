@@ -1,9 +1,8 @@
-export const initialState = {
-  product: { name: "", qtd: 0 },
-  details: {
-    price: 0,
-    discount: 0,
-    taxRate: 0,
-    total: 0.00,
-  },
+export const initialStateProduct = {
+  id: 0,
+  name: "", 
+    qtd: 0,  
+    discount: 0.00,
+    price: 0.00,
+    taxRate: 0, 
 };

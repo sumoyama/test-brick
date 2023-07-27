@@ -8,9 +8,11 @@ import ProductContext from "./ProductContext";
 export function CompaniesProvider({ children }) {
   const [company, setCompany] = useState("");
   const [companies, setCompanies] = useState([]);
+
+  const { product, setProduct } = useContext(ProductContext);
+
   const [disabledCompanyFirstSelect, setDisabledCompanyFirstSelect] =
     useState(false);
-  const { setDetailsPurchase, detailsPurchase } = useContext(ProductContext);
 
   useEffect(() => {
     getListCompanies().then((data) => {
@@ -23,7 +25,8 @@ export function CompaniesProvider({ children }) {
     const { company_discount: discount } = companies.find(
       ({ name }) => name === value
     );
-    setDetailsPurchase({ ...detailsPurchase, discount });
+    console.log(product, discount);
+    setProduct({ ...product, discount });
     setCompany(value);
     setDisabledCompanyFirstSelect(true);
   };

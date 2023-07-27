@@ -4,13 +4,13 @@ export default function FormSelectProducts() {
   const {
     product,
     products,
-    detailsPurchase,
-    setProduct,
     addProduct,
     handleChangeProducts,
+    onChangeInputProduct,
     disabledProductFirstSelect,
+    calculatePriceTotal,
   } = useContext(ProductContext);
-
+  const total = calculatePriceTotal;
   return (
     <tr>
       <td>
@@ -29,20 +29,15 @@ export default function FormSelectProducts() {
         <input
           type="number"
           value={product.qtd}
-          onChange={({ target }) => {
-            setProduct({ ...product, qtd: Number(target.value) });
-          }}
+          onChange={onChangeInputProduct}
         />
       </td>
-      <td>{detailsPurchase.price}</td>
-      <td>{`${detailsPurchase.discount * 100}%`}</td>
-      <td>{detailsPurchase.taxRate}</td>
-      <td>{`$ ${detailsPurchase.total}`}</td>
+      <td>{`${product.price}`}</td>
+      <td>{`${product.discount * 100}%`}</td>
+      <td>{`${product.taxRate * 100}%`}</td>
+      <td>{`$ ${total}`}</td>
       <td>
-        <button
-          onClick={addProduct}
-          disabled={!parseFloat(detailsPurchase.total) > 0}
-        >
+        <button onClick={addProduct} disabled={!parseFloat(total) > 0}>
           add
         </button>
       </td>

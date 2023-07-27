@@ -3,10 +3,9 @@ import ProductContext from "../context/ProductContext";
 
 TablePurchase;
 export default function TablePurchase() {
-  const {
-    infoPurchase: { gross, discount, taxes, net },
-  } = useContext(ProductContext);
+  const { calculateTablePurchase } = useContext(ProductContext);
 
+  const { gross, discount, taxes, net } = calculateTablePurchase;
   return (
     <>
       <table className="tablePurchase">

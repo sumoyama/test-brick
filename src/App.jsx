@@ -4,7 +4,7 @@ import Purchase from "./pages/Purchase";
 function App() {
   return (
     <Routes>
-      <Route path="/purchase" element={<Purchase />} />
+      <Route path="/" element={<Purchase />} />
     </Routes>
   );
 }
