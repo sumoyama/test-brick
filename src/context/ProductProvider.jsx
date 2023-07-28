@@ -10,6 +10,7 @@ import {
   filterRemoveProductListPurchase,
   insertTheItemRemovedToListSelectProduct,
 } from "../utils/filters";
+import { startTransition } from "react";
 
 export function ProductProvider({ children }) {
   const [product, setProduct] = useState({
@@ -22,11 +23,13 @@ export function ProductProvider({ children }) {
     useState(false);
 
   useEffect(() => {
-    getListProducts().then((product) => {
-      const productsList = Object.keys(product).map((item) => product[item]);
+    const fetchListProducts = async () => {
+      const data = await getListProducts();
+      const productsList = Object.keys(data).map((item) => data[item]);
       setProducts(productsList);
       setOriginalProducts(productsList);
-    });
+    };
+    startTransition(fetchListProducts);
   }, []);
 
   const onChangeInputProduct = ({ target }) => {
@@ -51,9 +54,7 @@ export function ProductProvider({ children }) {
       },
     ]);
     const removeItemSelectList = filterProductToRemove(products, product.name);
-
     setProducts(removeItemSelectList);
-
     setProduct({
       ...initialStateProduct,
       id,

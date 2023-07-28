@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { startTransition, useContext, useState } from "react";
 import Proptypes from "prop-types";
 import CompaniesContext from "./CompaniesContext";
 import { useEffect } from "react";
@@ -15,10 +15,12 @@ export function CompaniesProvider({ children }) {
     useState(false);
 
   useEffect(() => {
-    getListCompanies().then((data) => {
+    const fetchListCompanies = async () => {
+      const data = await getListCompanies();
       const dataCompanies = Object.keys(data).map((item) => data[item]);
       setCompanies(dataCompanies);
-    });
+    };
+    startTransition(fetchListCompanies);
   }, []);
 
   const handleChangeCompanies = ({ target: { value } }) => {
